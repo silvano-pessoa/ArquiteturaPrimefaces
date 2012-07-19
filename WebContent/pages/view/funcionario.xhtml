@@ -1,0 +1,197 @@
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui"
+	template="../templates/main_console.xhtml">
+
+	<ui:define name="header">
+		<style type="text/css">
+			.ui-panelgrid {
+				border-collapse: inherit;
+			}
+			
+			 .ui-panelgrid td {
+				border: none;
+			} 
+		</style>      
+	</ui:define>
+
+	<ui:define name="content">
+		<p:layout style="min-width:400px;min-height:200px;" id="layout">
+		    <p:layoutUnit position="north" size="280" minSize="40" maxSize="300" header="#{i18n['app.menu.label.funcionario']}" resizable="true" closable="false" collapsible="true" style="text-align:left;">
+				<h:form id="frmList">
+					<p:panelGrid style="margin:0 auto; width:100%;">
+						<p:row>
+							<p:column style="width:40%;vertical-align:top;">
+								<h:panelGrid id="grid" style="margin:0 auto; width:90%;">
+									<p:row>
+										<p:column>
+											<h:outputText value="#{i18n['app.entity.funcionario.nome']}:" /><br/>
+											<p:autoComplete id="nomeSearch" minQueryLength="3" completeMethod="#{funcionarioController.searchNome}" value="#{funcionarioController.funcionarioSearch.nome}" tabindex="16" size="50" />
+											<p:commandButton action="#{funcionarioController.search}" icon="ui-icon-search" ajax="true" update="listFunc" tabindex="20"/>
+										</p:column>
+									</p:row>		
+									<p:row>
+										<p:column>
+											<h:outputText value="#{i18n['app.entity.funcionario.ativo']}" /><br />
+											<f:validateBean disabled="true">
+											<p:selectOneMenu style="width: 260px;" value="#{funcionarioController.funcionarioSearch.ativo}">
+												<f:selectItem itemLabel="#{i18n['app.generic.selectone']}" itemValue="" />
+												<f:selectItem itemLabel="#{i18n['app.generic.yes']}" itemValue="true" />
+												<f:selectItem itemLabel="#{i18n['app.generic.no']}" itemValue="false" />
+											</p:selectOneMenu>
+											</f:validateBean>
+										</p:column>
+									</p:row>														
+								</h:panelGrid>
+							</p:column>
+							<p:column style="vertical-align:top;">
+								<p:dataTable id="listFunc" var="func" value="#{funcionarioController.funcionarios}" emptyMessage="#{i18n['app.generic.emptymessage']}" 
+											paginator="true" paginatorPosition="bottom" rows="5" paginatorTemplate="{RowsPerPageDropdown} {FirstPageLink} {PreviousPageLink} {CurrentPageReport} {NextPageLink} {LastPageLink}" 
+											rowsPerPageTemplate="5,10,15" selection="#{funcionarioController.funcionarioSel}" selectionMode="single" rowKey="#{func.funId}"  widgetVar="varFuncionario">
+									<p:ajax event="sort" listener="#{funcionarioController.onSort}" />
+							        <p:ajax event="rowSelect" listener="#{funcionarioController.selecionarFunc}" update=":frmCadastroFunc" />
+			
+									<p:column headerText="#{i18n['app.entity.funcionario.nome']}" sortBy="#{func.nome}" style="width:20px;">
+										<h:outputText value="#{func.nome}"/>
+									</p:column>
+									<p:column headerText="#{i18n['app.entity.funcionario.ativo']}" sortBy="#{func.ativo}" style="width:20px;">
+										<h:outputText value="#{func.ativo}"/>
+									</p:column>
+									<p:column style="width:5%;align:center;">
+										<p:commandButton id="deleteButton" icon="ui-icon-trash" oncomplete="deleteDialog.show()" style="width:15px;height:15px;"/>
+									</p:column>
+									
+								</p:dataTable>
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+					<p:confirmDialog header="#{i18n['app.generic.warning']}" widgetVar="deleteDialog" message="#{i18n['app.entity.funcionario.delete.confirmation']}" severity="alert" appendToBody="true" closable="false">
+						<p:commandButton id="confirm" value="#{i18n['app.generic.yes']}" onclick="deleteDialog.hide();" actionListener="#{funcionarioController.delete}" ajax="true" immediate="true" process="@this" update=":frmCadastroFunc, :frmList"/>
+       					<p:commandButton id="decline" value="#{i18n['app.generic.no']}" onclick="deleteDialog.hide();" type="button" />  
+					</p:confirmDialog>					
+				</h:form>
+		    </p:layoutUnit>
+		    <p:layoutUnit position="center" header="#{i18n['app.generic.formulario']}" style="text-align:left;" >
+				<h:form id="frmCadastroFunc">
+					<p:panelGrid style="margin:0px; width:100%;border-bottom:1pt solid #EEE9E9;" >
+						<p:row>
+							<p:column style="text-align:right;width:100%;">
+								<p:commandButton value="#{i18n['app.generic.new']}" action="#{funcionarioController.insert}" icon="ui-icon-cancel" update="frmCadastroFunc, :frmList" immediate="true" process="@this" ajax="true"/>
+								<p:commandButton id="btnDelete" type="button" value="#{i18n['app.generic.delete']}" icon="ui-icon-trash" onclick="confirmation.show();" style="#{funcionarioController.funcionario.funId==0?'display :none':''}" />
+								<p:commandButton value="#{i18n['app.generic.save']}"   action="#{funcionarioController.save}"   icon="ui-icon-disk" update="frmCadastroFunc, :frmList" ajax="true"/>
+						    </p:column>
+						 </p:row>
+					</p:panelGrid>
+
+					<p:confirmDialog header="#{i18n['app.generic.warning']}" widgetVar="confirmation" message="#{i18n['app.entity.funcionario.delete.confirmation']}" severity="alert" appendToBody="true" closable="false">
+						<p:commandButton id="confirm" value="#{i18n['app.generic.yes']}" onclick="confirmation.hide();" actionListener="#{funcionarioController.delete}" ajax="true" immediate="true" process="@this" update="frmCadastroFunc, :frmList"/>
+       					<p:commandButton id="decline" value="#{i18n['app.generic.no']}" onclick="confirmation.hide();" type="button" />  
+					</p:confirmDialog>
+					
+					<p:ajaxStatus onstart="statusDialog.show();" onsuccess="statusDialog.hide();"/>
+								
+					<p:panelGrid style="margin:0 auto; width:100%;" id="pnlCadastro">
+							<p:row>
+								<p:column styleClass="labelForm">
+									<p:panel header="#{i18n['app.entity.funcionario.informationPerson']}" style="text-align:left;">
+											<p:panelGrid style="width: 100%;text-align:left;">
+												<p:row>
+													<p:column>
+														<h:outputText value="#{i18n['app.entity.funcionario.nome']}:" /><br/>
+														<p:inputText value="#{funcionarioController.funcionario.nome }" maxlength="255"
+															style="width: 99%;" required="true" tabindex="1"
+															requiredMessage="#{i18n['app.entity.funcionario.error.nomeRequired']}" />													
+													</p:column>												
+												</p:row>	
+												<p:row>
+													<p:column>
+														<h:outputText value="#{i18n['app.entity.funcionario.cpf']}:" /><br/>														
+														<p:inputMask id="cpf" mask="999.999.999-99" value="#{funcionarioController.funcionario.cpf}"
+																	 style="width:100px;" tabindex="2"
+																	 required="true" requiredMessage="#{i18n['app.entity.funcionario.error.cpfRequired']}">												
+														</p:inputMask>														
+													</p:column>											
+												</p:row>													
+												<p:row>
+													<p:column>
+														<h:outputText value="#{i18n['app.entity.funcionario.ativo']}:" /><br/>
+														<p:selectBooleanCheckbox value="#{funcionarioController.funcionario.ativo}" tabindex="3"/>
+													</p:column>												
+												</p:row>
+											</p:panelGrid>
+										</p:panel>														
+								</p:column>
+								<p:column style="vertical-align:top;">
+									<p:panel header="#{i18n['app.entity.funcionario.informationCompany']}">
+											<p:panelGrid style="width: 100%;">
+												<p:row>												
+													<p:column>
+														<h:outputText value="#{i18n['app.entity.funcionario.superior']}:" /><br/>
+														<p:selectOneMenu id="cbSuperior" style="width:260px" tabindex="9"
+															value="#{funcionarioController.funcionario.superior}"
+															converter="funcionarioConverter">
+															<f:selectItem
+																itemLabel="#{i18n['app.entity.funcionario.sel.funcionario']}"
+																itemValue="" />
+															<f:selectItems
+																value="#{funcionarioController.funcionariosCmb}" var="sup"
+																itemLabel="#{sup.nome}" itemValue="#{sup}" />
+														</p:selectOneMenu>									
+													</p:column>
+												</p:row>
+											</p:panelGrid>
+										</p:panel>														
+								</p:column>
+							</p:row>
+							<p:row>
+								<p:column>
+									<p:panel header="#{i18n['app.entity.funcionario.informationAccess']}">
+											<p:panelGrid style="width: 100%;">
+												<p:row>
+													<p:column>
+														<h:outputText value="#{i18n['app.entity.funcionario.accesslist']}:" /><br/>						
+														<p:selectOneMenu id="cbAccesslist"
+															value="#{funcionarioController.funcionario.accesslist}"
+															converter="accesslistConverter" style="width:260px;"
+															required="true" tabindex="4"
+															requiredMessage="#{i18n['app.entity.funcionario.error.accesslistRequired']}">
+															<f:selectItem
+																itemLabel="#{i18n['app.entity.funcionario.sel.accesslist']}"
+																itemValue=""/>
+															<f:selectItems
+																value="#{funcionarioController.accesslists}" var="acl"
+																itemLabel="#{acl.nome}" itemValue="#{acl}" />
+														</p:selectOneMenu>											
+													</p:column>
+												</p:row>
+												<p:row>	
+													<p:column>
+														<h:outputText value="#{i18n['app.entity.funcionario.usuario']}"/><br/>	
+														<p:inputText value="#{funcionarioController.funcionario.user}"
+																	style="width:260px" required="true" tabindex="5"
+																	requiredMessage="#{i18n['app.entity.funcionario.error.usuarioRequired']}" maxlength="30"/>
+													</p:column>
+												</p:row>
+												<p:row>
+													<p:column>
+														<h:outputText value="#{funcionarioController.funcionario.funId==0?i18n['app.entity.funcionario.senha']:i18n['app.entity.funcionario.novaSenha']}" /><br/>
+														<p:password value="#{funcionarioController.funcionario.novaSenha}" maxlength="50" style="width:260px" tabindex="6"/>
+													</p:column>													
+												</p:row>
+											</p:panelGrid>
+										</p:panel>																						
+								</p:column>								
+							</p:row>
+						<p:row>
+							<p:column colspan="2">
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+				</h:form>
+			</p:layoutUnit>
+		</p:layout>
+	</ui:define>
+  
+</ui:composition>

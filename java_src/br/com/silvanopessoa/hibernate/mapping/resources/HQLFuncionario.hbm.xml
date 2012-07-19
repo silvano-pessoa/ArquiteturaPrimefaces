@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping>
+	<query name="hql.funcionario.all">from Funcionario obj order by obj.nome</query>
+	<query name="hql.funcionario.listativos">select obj from Funcionario obj WHERE obj.ativo = :ativo ORDER BY nome</query>
+	<query name="hql.funcionario.find">
+    	<![CDATA[ 
+    		SELECT obj
+    		FROM Funcionario obj
+			WHERE (( :nome is not null and obj.nome like :nome) or (:nome is null)) 
+				  AND ((:ativo is not null and obj.ativo = :ativo) or (:ativo is null))
+			order by obj.nome
+    	]]>
+    </query>
+    <query name="hql.funcionario.user">
+    	<![CDATA[ 
+    	    SELECT obj FROM Funcionario obj
+			WHERE upper(obj.user) = upper(:user)
+    	]]>
+    </query>     	
+    <query name="hql.funcionario.nome">
+    	<![CDATA[ 
+    	    SELECT obj FROM Funcionario obj
+			WHERE upper(obj.nome) = upper(:nome)
+    	]]>
+    </query>
+    <query name="hql.funcionario.findSuperior">
+    	<![CDATA[ 
+    		SELECT obj FROM Funcionario obj
+			WHERE obj.superior.funId = :id
+			order by obj.nome
+    	]]>
+    </query>    
+	<query name="hql.funcionario.duplicado">
+      <![CDATA[     
+    	    SELECT obj FROM Funcionario obj
+			WHERE ( upper(obj.user) = upper(:user) 
+				or obj.cpf = :cpf )
+				AND obj.funId <> :id
+	    ]]>
+	</query>
+</hibernate-mapping>

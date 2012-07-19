@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE hibernate-mapping PUBLIC "-//Hibernate/Hibernate Mapping DTD 3.0//EN"
+    "http://hibernate.sourceforge.net/hibernate-mapping-3.0.dtd">
+<hibernate-mapping >
+    <sql-query name="sql.funcionario.all">select * from cliente</sql-query>
+    <sql-query name="sql.funcionario.list">
+    	<![CDATA[ 
+    		SELECT obj FROM Funcionario obj WHERE ativo = :ativo ORDER BY nome
+    		 ]]>
+     </sql-query>
+     
+     <sql-query name="hql.funcionario.existe.associado">
+             SELECT * FROM funcionario  WHERE superior_fun_id = :superior
+     </sql-query>
+
+</hibernate-mapping>

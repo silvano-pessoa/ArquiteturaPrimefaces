@@ -1,0 +1,54 @@
+<persistence xmlns="http://java.sun.com/xml/ns/persistence"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/persistence http://java.sun.com/xml/ns/persistence/persistence_2_0.xsd"
+	version="2.0">
+
+	<persistence-unit name="intranet" transaction-type="JTA">
+		<provider>org.hibernate.ejb.HibernatePersistence</provider>
+		<jta-data-source>persistence/producao</jta-data-source>
+		<class>br.com.silvanopessoa.model.entity.Funcionario</class>
+		<class>br.com.silvanopessoa.model.entity.Accesslist</class>
+		<class>br.com.silvanopessoa.model.entity.Menu</class>
+		<class>br.com.silvanopessoa.model.entity.Checkpoint</class>
+		
+		<properties>
+		 	<property name="hibernate.archive.autodetection" value="class, hbm"/>
+			<property name="hibernate.dialect" value="org.hibernate.dialect.MySQLDialect"/>
+			<property name="hibernate.format_sql" value="true"/>
+			<property name="hibernate.show_sql" value="false"/>
+			<property name="hibernate.connection.driver_class" value="com.mysql.jdbc.Driver"/>
+			
+			<!-- PRODUCAO -->
+<!-- 			<property name="hibernate.hbm2ddl.auto" value="validate"/> -->
+			
+			<!-- DESENVOLVIMENTO -->
+			<property name="hibernate.hbm2ddl.auto" value="update"/>
+			
+			<!-- AUDITORIA -->
+   			<property name="hibernate.ejb.event.post-insert"              
+   				value="org.hibernate.ejb.event.EJB3PostInsertEventListener,org.hibernate.envers.event.AuditEventListener" />
+   			<property name="hibernate.ejb.event.post-update"              
+   				value="org.hibernate.ejb.event.EJB3PostUpdateEventListener,org.hibernate.envers.event.AuditEventListener" />
+   			<property name="hibernate.ejb.event.post-delete"              
+   				value="org.hibernate.ejb.event.EJB3PostDeleteEventListener,org.hibernate.envers.event.AuditEventListener" />
+   			<property name="hibernate.ejb.event.pre-collection-update"    
+   				value="org.hibernate.envers.event.AuditEventListener" />
+  	 		<property name="hibernate.ejb.event.pre-collection-remove"    
+  	 			value="org.hibernate.envers.event.AuditEventListener" />
+   			<property name="hibernate.ejb.event.post-collection-recreate" 
+   				value="org.hibernate.envers.event.AuditEventListener" />
+			
+
+<!-- 				<prop key="hibernate.cache.use_second_level_cache">true</prop> -->
+<!-- 				<prop key="connection.pool_size">3</prop> -->
+<!-- 				<prop key="current_session_context_class">thread</prop> -->
+<!-- 				<prop key="hibernate.c3p0.max_size">10</prop> -->
+<!-- 				<prop key="hibernate.c3p0.min_size">2</prop> -->
+<!-- 				<prop key="hibernate.c3p0.timeout">60</prop> -->
+<!-- 				<prop key="hibernate.c3p0.max_statements">10</prop> -->
+<!-- 				<prop key="hibernate.c3p0.idle_test_period">3000</prop> -->
+<!-- 				<prop key="hibernate.c3p0.acquire_increment">2</prop> -->
+		</properties>
+	</persistence-unit>
+	
+</persistence>

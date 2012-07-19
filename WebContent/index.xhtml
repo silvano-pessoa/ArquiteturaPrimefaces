@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1" ?>
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<f:view>
+	<!-- CABECALHO	 -->
+	<h:head>
+		<f:facet name="first">
+			<meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+			<meta content='text/html; charset=UTF-8' http-equiv="Content-Type" />
+			<title>Arquitetura Primefaces</title>
+		</f:facet>
+		<link type="text/css" rel="stylesheet"
+			href="#{request.contextPath}/css/default.css" />
+		<ui:insert name="head"></ui:insert>
+	</h:head>
+
+	<!-- CORPO -->
+	<h:body>
+
+		<div style="width: 400px; margin-left: 35%; margin-top: 20%;" align="center">
+
+			<p:dialog modal="true" widgetVar="statusDialog" header="Status"
+				draggable="false" closable="false">
+				<p:graphicImage value="/images/ajaxloadingbar.gif" />
+			</p:dialog>
+
+			<!-- FORMULARIO -->
+			<h:form id="formLogin">
+
+				<p:ajaxStatus onstart="statusDialog.show();"
+					onsuccess="statusDialog.hide();" />
+				<!-- TODAS MENSAGENS DA PAGINA -->
+				<p:growl id="growl" showDetail="false" />
+
+				<p:panel header="#{i18n['app.login.title']}">
+
+					<!-- GERENCIADOR DO LAYOUT COM 3 COLUNAS -->
+					<h:panelGrid columns="1" border="0" id="panel">
+						<p:focus context="panel" />
+						<!-- LABEL USUARIO (USADO PARA ASSOCIAR O TEXTO A UM OUTRO COMPONENTE) -->
+						<h:outputLabel id="lblUsuario" value="#{i18n['app.login.user']}" />
+						<!-- INPUT TEXT USUARIO -->
+						<h:panelGroup>
+							<p:inputText id="txtUsuario" required="true"
+								requiredMessage="#{i18n['app.login.user.required']}"
+								title="Login do usuario." value="#{loginController.nome}">
+								<f:validateLength for="txtUsuario" minimum="1" maximum="30" />
+							</p:inputText>
+						</h:panelGroup>
+
+						<!--LABEL SENHA-->
+						<h:outputLabel id="lblSenha" value="Senha" />
+						
+						<!--INPUT TEXT SENHA-->
+						<h:panelGroup>
+							<p:password id="txtSenha" maxlength="8" required="true" requiredMessage="#{i18n['app.login.password.required']}" value="#{loginController.senha}" />
+						</h:panelGroup>
+
+						<!-- INPUT HIDDEN VERSAO -->
+						<h:inputHidden id="txtVersao" value="1.0.0.1" />
+
+						<!-- BUTTON ACESSAR -->
+						<p:commandButton value="Acessar" title="Acessar" action="#{loginController.login}" update="growl" />
+
+					</h:panelGrid>
+				</p:panel>
+			</h:form>
+
+		</div>
+	</h:body>
+</f:view>
+</html>

@@ -1,0 +1,78 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:sec="http://www.springframework.org/security/facelets/tags">
+
+	<f:view contentType="text/html" locale="#{languageController.localeCode}"> 
+	
+		<h:head>
+	
+			<f:facet name="first">
+	            <meta http-equiv="X-UA-Compatible" content="EmulateIE8" />
+	            <meta content='text/html; charset=UTF-8' http-equiv="Content-Type"/>
+	            <title>Intranet Version 1.0</title>
+	        </f:facet>
+			
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/default.css" />
+			<link type="text/css" rel="stylesheet" href="#{request.contextPath}/css/application.css" />
+		   	
+		   	<ui:insert name="header"></ui:insert>
+		    
+		</h:head>
+		
+		<h:body>
+	
+			<ui:include src="/pages/templates/dialog_application_error.xhtml" />
+	
+			<center>
+				<p:layout style="width:980px;min-height:1500px;">
+		
+					<p:layoutUnit position="north" size="60" id="layout_header">
+						<div class="ui-layout-unit-header ui-widget-header ui-corner-all app-layout-container" style="background: url('#{request.contextPath}/images/bg_topo_new.jpg') repeat-x;">
+							<div style="float: left; padding-left: 15px; padding-top: 0px;">
+								<p:graphicImage value="/images/logo_unicom_new.png" />
+							</div>
+							<div style="float: right; position:absolute; padding-right: 50px; padding-top: 5px;left:830px;">
+								<p:button icon="ui-icon-home" value="#{sessionController.userName}" style="width:70px;border: 1px solid #999999; background: #CFCFCF;color:#FFFFFF;" />
+							</div>
+							<div style="float: right; position:absolute; padding-top: 5px;left:902px;width:70px;">
+								<p:button icon="ui-icon-close" value="Sair" style="width:70px;border: 1px solid #999999; background: #CFCFCF;color:#FFFFFF;" href="#{facesContext.externalContext.requestContextPath}/logout"/>
+							</div>
+							<div style="left: 100px;position: relative; top: 28px; width:805px;">
+								<ui:include src="/pages/templates/menubar.xhtml" />
+							</div>
+						</div>
+					</p:layoutUnit>
+					<p:layoutUnit position="center" id="layout_center">
+						<p:dialog modal="true" widgetVar="statusDialog" header="Status"  draggable="false" closable="false">
+							<p:graphicImage value="/images/ajaxloadingbar.gif" />
+						</p:dialog>
+	
+						<p:layout>
+							<p:layoutUnit id="layout_content" position="center" header="#{navigationController.titlePage}">
+								<p:growl id="growl" showDetail="false" autoUpdate="true" />
+								<ui:insert name="content">...</ui:insert>
+							</p:layoutUnit>
+						</p:layout>
+					
+					</p:layoutUnit>
+					<!-- 
+					<p:layoutUnit position="south" size="30">
+						<div class="ui-layout-unit-header ui-widget-header ui-corner-all app-layout-container">
+							<div style="padding-top: 3px;">
+								<center><b><h:outputText value="#{i18n['app.footer.boldtext']}" /></b>&nbsp;<h:outputText value="#{i18n['app.footer.normaltext']}" /></center>
+							</div>
+						</div>
+					</p:layoutUnit>
+		 			-->
+				</p:layout>
+			</center>
+			
+		</h:body>
+	
+	</f:view>
+</html>

@@ -1,0 +1,289 @@
+body {
+ 	margin: 0px !important;
+ 	padding: 0px !important;
+ 	font-size: 8px;
+ 	font-family: Tahoma, Arial, Trebuchet MS, Verdana;
+ 	TEXT-TRANSFORM: uppercase;
+ 	cellpadding: 0px;
+ 	cellspacing: 0px;
+}
+ 
+ button {
+ 	width: 80px;
+ 	height: 20px;
+ }
+
+.ui-layout-unit-content {
+	margin: 1px;
+}
+
+.ui-layout-unit {
+	border-width: 0px !important;
+ 	padding-top: 0px !important;
+ 	padding-bottom: 0px !important;
+ 	padding-left: 0px !important;
+ 	padding-right: 0px !important;
+ }
+ 
+.ui-layout-west {
+ 	border-width: 1px !important;
+ 	padding: 1px !important;
+}
+
+.ui-layout-east {
+ 	border-width: 1px !important;
+ 	padding: 1px !important;
+}
+
+.ui-layout-center#layout_content .ui-layout-unit-header {
+ 	padding-left: 13px !important;
+}
+
+.ui-layout-center#layout_content {
+ 	border-width: 1px !important;
+ 	padding: 1px !important;
+}
+
+.ui-layout-center#layout_center {
+	padding-bottom: 10px !important;
+}
+
+.ui-layout-south {
+ 	margin-bottom: 10px !important;
+}
+ 
+.ui-layout-south .ui-layout-unit-content {
+ 	background: none !important;
+ 	color: #FFF;
+ 	overflow: hidden;
+}
+ 
+.ui-layout-north#layout_menu {
+ 	z-index: 20 !important;
+ 	overflow: visible !important;
+ 	padding: 0px !important;
+ 	background: none !important;
+}
+ 
+.ui-layout-north#layout_menu .ui-layout-unit-content {
+	overflow: visible !important;
+	background: none !important;
+}
+
+.ui-layout-north#layout_header {
+	border-width: 0px !important;
+	z-index: 20 !important;
+ 	overflow: visible !important;
+ 	padding: 0px !important;
+ 	background: none !important;
+}
+
+.ui-layout-north#layout_header .ui-layout-unit-content {
+	overflow: visible !important;
+	background: none !important;
+}
+
+.ui-menubar {
+	background: #CFCFCF;
+    padding: none;
+    height: 23px;
+    width: 785px;
+    align:left;
+}
+
+.ui-menubar .ui-menuitem {
+	padding-right: 3px !important;
+}
+
+.ui-menu .ui-menuitem {
+	margin: 0px;
+}
+
+.app-layout-container {
+	margin: 0px !important; 
+	height: 100%; 
+	padding: 0px !important;
+}
+
+/*
+ * Layout para a caixa de erros de aplicação.
+ */
+ .ui-dialog#dialogApplicationError .ui-dialog-content {
+ 	padding: 0px !important;
+ 	overflow: hidden;
+ }
+ 
+ #dialogApplicationError .ui-panel {
+ 	width: 420px;
+ }
+ 
+ #dialogApplicationError .ui-panel .ui-panel-content {
+	overflow: auto;
+	height: 200px;
+ }
+
+.labelForm {
+ 	text-align:right;
+ }
+ 
+.ui-widget-header {
+	background: #CFCFCF;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active{
+	background: #CFCFCF;
+}
+
+.ui-dt-c{ 
+	color: #444; 
+}
+
+.ui-button-text{
+	color: #444; 
+}
+
+.ui-fieldset .ui-fieldset-toggler{
+	color: #444; 
+}
+
+.ui-state-hover, .ui-widget-content .ui-state-hover, .ui-widget-header .ui-state-hover, .ui-state-focus, .ui-widget-content .ui-state-focus, .ui-widget-header .ui-state-focus { 
+	border: 1px solid #444;
+	background: #EEE9E9;
+	color: white; 
+}
+
+.ui-state-hover .ui-menuitem-text{
+	color: black;
+}
+
+.ui-menuitem .ui-widget .ui-corner-all{
+	color: black;
+}
+
+.ui-state-highlight, .ui-widget-content .ui-state-highlight, .ui-widget-header .ui-state-highlight  {
+	color: black; 
+	background: #dce9f1;
+	border:none;
+}
+
+.ui-datatable .ui-datatable-data td{
+	border:none;
+}
+
+.ui-datatable .ui-sortable-column{
+	background: #CFCFCF;
+	border: none;
+}
+
+.ui-datatable .ui-state-default{
+	background: #CFCFCF;
+	border: none;
+}
+
+.ui-datatable th, .ui-datatable tfoot td{
+	padding-top:2px;
+	text-align:left;
+	border: 0pt solid red;
+	height:25px;
+}
+
+.ui-paginator {
+	text-align:left;
+}
+
+.ui-inputfield.ui-state-focus, .ui-widget-content .ui-inputfield.ui-state-focus, .ui-widget-header .ui-inputfield.ui-state-focus {
+	box-shadow:none;
+	-moz-box-shadow:none;
+}
+
+.ui-inputfield, .ui-widget-content .ui-inputfield, .ui-widget-header .ui-input-field {
+	box-shadow:none;
+	-moz-box-shadow:none;	
+}
+
+.ui-widget-header .ui-icon{
+	background-image: url("./../javax.faces.resource/images/ui-icons_454545_256x240.png.jsf?ln=primefaces-flick")
+}
+
+.ui-widget-content .ui-icon{
+	background-image: url("./../javax.faces.resource/images/ui-icons_454545_256x240.png.jsf?ln=primefaces-flick")
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active{
+}
+
+.ui-paginator .ui-paginator-next .ui-icon, .ui-paginator .ui-paginator-prev .ui-icon, .ui-paginator .ui-paginator-first .ui-icon, .ui-paginator .ui-paginator-last .ui-icon{
+	height: 15px;
+}
+
+.ui-menuitem-text{
+	font-size:9px;
+	font-style: bold;
+}
+
+.ui-state-default, .ui-widget-content .ui-state-default, .ui-widget-header .ui-state-default{
+	font-weight:normal;
+	color: #444;
+}
+
+.ui-state-error, .ui-widget-content .ui-state-error, .ui-widget-header .ui-state-error{
+	border:1px solid red;
+}
+
+.ui-inputfield{
+	text-transform: uppercase;
+}
+
+/*
+ * Propriedades do Fundo de Tela/Panel.
+ */
+.ui-widget-content{
+	background: #fafafa;
+}
+
+.ui-widget{
+}
+
+.ui-helper-clearfix{
+	display: compact;
+}
+
+.ui-menu{
+	padding: 0px;
+}
+
+/*Propriedades de fonte do menu*/
+.ui-menubar .ui-menuitem-link {
+	font-weight: bold;
+	color: #FFFFFF;
+}
+
+.ui-state-disabled, .ui-widget-content .ui-state-disabled, .ui-widget-header .ui-state-disabled{
+	opacity:0.90;
+}
+
+.ui-helper-reset {
+	margin: 0 0 0 10px;
+}
+
+.ui-dialog .ui-dialog-buttonpane {
+	text-align: center;
+}
+
+.ui-icon{
+	background-image: url("./../javax.faces.resource/images/ui-icons_454545_256x240.png.jsf?ln=primefaces-flick")
+}
+
+.ui-datepicker table{
+	font-size: 10px;
+}
+
+.ui-menubar .ui-menu-child .ui-menuitem{
+	background: #CFCFCF;
+}
+
+.ui-widget-content .ui-menu-list .ui-corner-all .ui-helper-clearfix{
+	background: #CFCFCF;	
+}
+
+
