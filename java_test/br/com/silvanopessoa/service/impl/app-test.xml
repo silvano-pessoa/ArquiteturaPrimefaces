@@ -1,0 +1,138 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:tx="http://www.springframework.org/schema/tx"
+    xmlns:p="http://www.springframework.org/schema/p"
+    xmlns:context="http://www.springframework.org/schema/context"
+    xmlns:cache="http://www.springframework.org/schema/cache"
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xsi:schemaLocation="
+        http://www.springframework.org/schema/beans
+        http://www.springframework.org/schema/beans/spring-beans-3.0.xsd
+        http://www.springframework.org/schema/tx
+		http://www.springframework.org/schema/tx/spring-tx-3.0.xsd
+		http://www.springframework.org/schema/cache
+		http://www.springframework.org/schema/cache/spring-cache.xsd
+        http://www.springframework.org/schema/context
+        http://www.springframework.org/schema/context/spring-context-3.0.xsd">
+
+    
+    <!-- ======================================================================================== -->
+    <!-- ============================ CONFIGURACAO DO CACHE ===================================== -->
+    <!-- ======================================================================================== -->
+    <cache:annotation-driven />
+ 
+    <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager" p:cache-manager-ref="ehcache"/>
+ 
+    <!-- Ehcache library setup -->
+    <bean id="ehcache" class="org.springframework.cache.ehcache.EhCacheManagerFactoryBean" p:config-location="classpath:br/com/flexvision/service/impl/ehcache.xml"/>
+    
+ 	<!-- ======================================================================================== -->
+ 	<!-- ========================= CONFIGURACAO DO HIBERNATE E SESSAO =========================== -->
+ 	<!-- ======================================================================================== -->
+
+	<!-- Entity Manager Factory -->
+<!-- 	<context:load-time-weaver/> -->
+	<bean id="entityManagerFactory"	class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+		<property name="mappingResources">
+			<list>
+	        	<value>br/com/flexvision/hibernate/mapping/resources/HQLCliente.hbm.xml</value>
+	        	<value>br/com/flexvision/hibernate/mapping/resources/SQLCliente.hbm.xml</value>
+	        	<value>br/com/flexvision/hibernate/mapping/resources/HQLFuncionario.hbm.xml</value>
+	        	<value>br/com/flexvision/hibernate/mapping/resources/SQLFuncionario.hbm.xml</value>
+	        	<value>br/com/flexvision/hibernate/mapping/resources/HQLBoleto.hbm.xml</value>
+	        	<value>br/com/flexvision/hibernate/mapping/resources/HQLTipoDespesa.hbm.xml</value>
+	        	<value>br/com/flexvision/hibernate/mapping/resources/HQLProduto.hbm.xml</value>
+	        	<value>br/com/flexvision/hibernate/mapping/resources/HQLDepartamento.hbm.xml</value>	        	
+	        	<value>br/com/flexvision/hibernate/mapping/resources/HQLEmpresa.hbm.xml</value>
+	        	<value>br/com/flexvision/hibernate/mapping/resources/HQLVeiculo.hbm.xml</value> 		        	
+	        	<value>br/com/flexvision/hibernate/mapping/resources/HQLContrato.hbm.xml</value>
+	         	<value>br/com/flexvision/hibernate/mapping/resources/HQLProjeto.hbm.xml</value>
+	         	<value>br/com/flexvision/hibernate/mapping/resources/HQLReembolso.hbm.xml</value>
+	         	<value>br/com/flexvision/hibernate/mapping/resources/HQLReembolsoAdianta.hbm.xml</value>
+	         	<value>br/com/flexvision/hibernate/mapping/resources/HQLReembolsoItem.hbm.xml</value>
+	         	<value>br/com/flexvision/hibernate/mapping/resources/HQLAdianta.hbm.xml</value>		 	        	
+	         	<value>br/com/flexvision/hibernate/mapping/resources/HQLSite.hbm.xml</value>	
+	         	<value>br/com/flexvision/hibernate/mapping/resources/HQLAccesslist.hbm.xml</value>
+	         	<value>br/com/flexvision/hibernate/mapping/resources/HQLProposta.hbm.xml</value>
+	         	<value>br/com/flexvision/hibernate/mapping/resources/HQLConta.hbm.xml</value>	         	
+	        </list>
+	    </property>
+		<property name="dataSource" ref="dataSource"/>
+		<property name="persistenceProviderClass" value="org.hibernate.ejb.HibernatePersistence" />
+		<property name="jpaProperties">
+			<props>
+				<prop key="hibernate.connection.driver_class">com.mysql.jdbc.Driver</prop>
+				<prop key="hibernate.dialect">org.hibernate.dialect.MySQLDialect</prop>
+				<prop key="hibernate.connection.url">jdbc:mysql://localhost/arquitetura</prop>
+				<prop key="hibernate.connection.username">silvanopessoa</prop>
+				<prop key="hibernate.connection.password">123456</prop>
+				<prop key="hibernate.show_sql">true</prop>
+				<prop key="hibernate.archive.autodetection">class, hbm</prop>
+				<prop key="hibernate.hbm2ddl.auto">update</prop>
+				<prop key="hibernate.format_sql">false</prop>
+				<prop key="hibernate.cache.use_second_level_cache">true</prop>
+				<prop key="connection.pool_size">3</prop>
+				<prop key="current_session_context_class">thread</prop>
+				<prop key="hibernate.c3p0.max_size">10</prop>
+				<prop key="hibernate.c3p0.min_size">2</prop>
+				<prop key="hibernate.c3p0.timeout">60</prop>
+				<prop key="hibernate.c3p0.max_statements">10</prop>
+				<prop key="hibernate.c3p0.idle_test_period">3000</prop>
+				<prop key="hibernate.c3p0.acquire_increment">2</prop>
+			</props>
+		</property>
+		<property name="packagesToScan" value="br.com.flexvision.model.entity" />
+	</bean>
+
+	<!-- ======================================================================================== -->
+ 	<!-- ========================= GERENCIAMENTO DE TRANSACAO =================================== -->
+ 	<!-- ======================================================================================== -->
+	<!-- CONFIGURACAO DE GERENCIAMENTO DE TRANSACAO -->
+ 	<tx:annotation-driven transaction-manager="transactionManager" />
+
+	<!-- Transaction Manager JPA -->
+	<bean id="transactionManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+		<property name="entityManagerFactory" ref="entityManagerFactory">
+
+		</property> 
+	</bean>
+ 	
+ 	<!-- Ativa varias anotacoes para detectar as classes bean
+ 		Spring's @Required e @Autowired, JSR250 @Resource.-->
+ 	<context:annotation-config/>
+
+ 	<!-- ======================================================================================== -->
+ 	<!-- ============================= CARREGA OS BEANS POR PACKAGE ============================= -->
+ 	<!-- ======================================================================================== -->
+ 	<!-- BEANS SERVICE -->
+    <context:component-scan base-package="br.com.flexvision.service.impl"/>
+
+    <!-- BEANS DAO  -->
+    <context:component-scan base-package="br.com.flexvision.dao.impl"/>
+    
+    <!-- ======================================================================================== -->
+ 	<!-- ================================= JDBC TEMPLATE ======================================== -->
+ 	<!-- ======================================================================================== -->
+    <bean id="dataSource" class="org.springframework.jdbc.datasource.DriverManagerDataSource">
+        <property name="driverClassName" value="com.mysql.jdbc.Driver" />
+        <property name="url" value="jdbc:mysql://localhost/arquitetura" />
+        <property name="username" value="silvanopessoa"/>
+        <property name="password" value="123456"/>
+    </bean>
+ 
+    <bean id="jdbcTemplate" class="org.springframework.jdbc.core.JdbcTemplate">
+        <property name="dataSource" ref="dataSource" />
+    </bean>
+    
+	<!-- ======================================================================================== -->
+    <!-- ================================== RESOURCE BUNDLE ===================================== -->
+    <!-- ======================================================================================== -->
+    <bean id="messageSource"
+        class="org.springframework.context.support.ResourceBundleMessageSource">
+        <property name="basenames">
+            <list>
+                <value>exceptions</value>
+            </list>
+        </property>
+    </bean>
+</beans>
